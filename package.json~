@@ -1,0 +1,17 @@
+{
+  "name": "vinochain",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "eth-lightwallet": "2.3.1",
+    "meteor-node-stubs": "~0.2.0",
+    "web3": "^0.17.0-alpha"
+  },
+  "version": "1.0.0",
+  "description": "the first anti-fraud distributed ledger for wine tracability",
+  "main": "index.js",
+  "author": "Blockfet team 8 vinochain",
+  "license": "ISC"
+}
