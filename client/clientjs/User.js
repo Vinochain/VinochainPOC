@@ -12,7 +12,8 @@ Template.login.events({
     const remember = target.remember.value;
     var user = userExist(email, pass);
     if (user !== undefined) {
-      Cookie.set('userId', user.userAddress); 
+      Cookie.set('userId', user.userAddress);
+      Session.set('role', user.userRole);
       Router.go('/');
 
     }

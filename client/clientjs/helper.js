@@ -11,3 +11,11 @@ Template.addbottle.events({
 
   }
 });
+
+if(Meteor.isClient){
+    var Txs = Meteor.call("getTenLastTransactions", Router.current().params._id);
+}
+
+Template.header.tenLastTxs = function() {
+	return Router.current().route.path(this);
+};

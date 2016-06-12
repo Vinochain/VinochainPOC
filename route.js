@@ -10,8 +10,15 @@ Router.configure({
 Router.route("/", function(){
   var self = this;
     if(Cookie.get('userId')){
+      if (Session.get('role') != undefined && Session.get('role') == 'Producteur') {
+        // statement
       self.render('content');
-    } else {
+      }
+      else {
+        self.render('wineavailable');
+      }
+    } 
+    else {
       self.render('login');
     }
 });
@@ -32,10 +39,6 @@ Router.route('/signup', function () {
 
 Router.route('/addbottle', function () {
   this.render('addbottle');
-});
-
-Router.route('/transaction', function () {
-  this.render('transaction');
 });
 
 Router.route('/logoff', {

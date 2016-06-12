@@ -1,0 +1,17 @@
+<template name="wineavailable">
+<!-- Title -->
+<div class="row">
+    <div class="col-lg-12">
+        <h2>Vins disponible</h2>
+    </div>
+</div>
+<!-- /.row -->
+<hr>
+<!-- Page Features -->
+<div class="row text-center">
+    {{#each bottles}}
+    {{> bottle}}
+    {{/each}}
+</div>
+<!-- /.row -->
+</template>
