@@ -23,3 +23,8 @@ session
 check
 iron:router
 underscore
+chuangbo:cookie
+twbs:bootstrap
+accounts-ui
+accounts-password
+
