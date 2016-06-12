@@ -49,7 +49,15 @@ Router.route('/logoff', {
     }
 });
 
-Router.route('/bottleinfo/:_id', {
+// Router.route("/bottleinfo/:_id",{
+//   name:"bottleinfo",
+//   data:function(){
+//     return Bottle.findOne(this.params._id).address;
+//   }
+// });
+
+
+Router.route('/bottleinfo', {
   name: 'bottleinfo'
   // data: function() { return Posts.findOne(this.params._id); }
 });
