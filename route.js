@@ -2,9 +2,21 @@ Router.configure({
   layoutTemplate: 'layout'
 });
 
-Router.route('/', function () {
-  this.render('content');
+// Router.route('/', function () {
+//   this.render(isLogged() ? 'content' : 'login');
+// });
+
+
+Router.route("/", function(){
+  var self = this;
+    if(Cookie.get('userId')){
+      self.render('content');
+    } else {
+      self.render('login');
+    }
 });
+
+
 
 Router.route('/about', function () {
   this.render('about');
@@ -20,6 +32,10 @@ Router.route('/signup', function () {
 
 Router.route('/addbottle', function () {
   this.render('addbottle');
+});
+
+Router.route('/transaction', function () {
+  this.render('transaction');
 });
 
 Router.route('/logoff', {

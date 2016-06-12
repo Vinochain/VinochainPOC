@@ -1,6 +1,11 @@
 <template name="addbottle">
-<div class="row text-center col-md-6 col-md-offset-3">
-  <form>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Ajouter</h2>
+    </div>
+</div>
+<div class="row col-md-6 col-md-offset-3">
+  <form class="form-add"> 
     <fieldset class="form-group">
       <label for="name">Nom</label>
       <input type="text" class="form-control" id="name" placeholder="Nom de la cuvée">
@@ -18,6 +23,10 @@
         <option>4</option>
         <option>5</option>
       </select>
+    </fieldset>
+    <fieldset class="form-group">
+      <label for="code">Code</label>
+      <input type="number" class="form-control" id="code" placeholder="Code">
     </fieldset>
 <!--     <div class="radio">
       <label>

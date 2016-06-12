@@ -17,8 +17,7 @@ footer {
     margin: 50px 0;
 }
 
-
-.form-signin {
+.form-signin, .form-signup {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
@@ -52,9 +51,6 @@ footer {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
-
-
 
 /*body {
   color:#780000;      
