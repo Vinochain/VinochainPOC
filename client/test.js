@@ -3,6 +3,36 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
+
+if (Meteor.isClient) {
+
+window.onload = function() {
+var fileInput = document.getElementById('walletInput');
+
+fileInput.addEventListener('change', function(e) {
+  // Put the rest of the demo code here.
+  var file = fileInput.files[0];
+  var reader = new FileReader();
+
+  reader.onload = function(e) {
+	var rawData = reader.result;
+	var keystore = JSON.parse(rawData);
+	Session.set('keystore', keystore);
+	delete Session.keys['nonce'];
+	delete Session.keys['receipts'];
+   console.log(rawData);
+   document.getElementById('seeWallet').textContent = Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0];
+  }
+
+  var output = reader.readAsBinaryString(file); 
+
+
+  });
+ }
+}
+
+contractAddress = "0xbd5d671e98b8efc34f451cf0a9ceb62234418598";
+
 Template.hello.onCreated(function helloOnCreated() {
   // counter starts at 0
   this.counter = new ReactiveVar(0);
@@ -15,32 +45,9 @@ Template.hello.helpers({
 });
 
 Template.hello.events({
-	'change #walletInput' : function(field) {
-		var walletInputLogin = document.getElementById('walletInput');
-		// Put the rest of the demo code here.
-		var file = walletInputLogin.files[0];
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			var rawData = reader.result;
-			var keys = JSON.parse(rawData);
-			var pwDerivedKey = Meteor.call('retrieveKey', password, function(error, result){
-				if(error){
-					throw error;
-				} else if(result){
-					return result;
-				}
-			});
-			Session.set('keystore', keys.keystore);
-			Session.set('pwDerivedKey', pwDerivedKey);
-			delete Session.keys['nonce'];
-			delete Session.keys['receipts'];
-			document.getElementById('seeWallet').textContent = wallet.signingAddress;
-		}
-		var output = reader.readAsBinaryString(file);
-	},
 	'click .passwordSubmission': function(event, instance) {
 		event.preventDefault();
-		// increment the counter when button is clicked
+
 		pass = document.getElementById("password").value;
 		console.log(pass);
 		Session.set('password', pass);
@@ -72,13 +79,13 @@ Template.hello.events({
 						}
 					});
 				} else {
-					var nonce = Meteor.call('getNonce', function(error, result){
+					var nonce = Meteor.call('getNonce', Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0], function(error, result){
 						if(error){
 							throw error;
 						} else if(result){
 							return result;
 						}
-					})
+					});
 					Meteor.call('createBottle', Session.get('keystore'), Session.get('password'), nonce, function(err, res){
 						if(err){
 							throw err;
@@ -94,7 +101,7 @@ Template.hello.events({
 		if(Session.get('keystore') !== undefined){
 			if(Session.get('password') !== undefined){
 				if(Session.get('nonce') !== undefined){
-					Meteor.call('sendFunctionWithOneArg', Session.get('keystore'), Session.get('password'), contractAddress, nonce, 'activateBottle', data, function(err, res){
+					Meteor.call('sendFunctionWithoutArg', Session.get('keystore'), Session.get('password'), contractAddress, Session.get('nonce'), 'activateBottle', function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -102,14 +109,15 @@ Template.hello.events({
 						}
 					});
 				} else {
-					var nonce = Meteor.call('getNonce', function(error, result){
+					console.log(typeof Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0]);
+					var nonce = Meteor.call('getNonce', Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0], function(error, result){
 						if(error){
 							throw error;
 						} else if(result){
 							return result;
 						}
-					})
-					Meteor.call('sendFunctionWithOneArg', Session.get('keystore'), Session.get('password'), contractAddress, nonce, 'activateBottle', data, function(err, res){
+					});
+					Meteor.call('sendFunctionWithoutArg', Session.get('keystore'), Session.get('password'), contractAddress, nonce, 'activateBottle', function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -124,7 +132,7 @@ Template.hello.events({
 		if(Session.get('keystore') !== undefined){
 			if(Session.get('password') !== undefined){
 				if(Session.get('nonce') !== undefined){
-					Meteor.call('sendFunctionWithOneArg', keystore, Session.get('password'), contractAddress, nonce, 'sellBottle', data, function(err, res){
+					Meteor.call('sendFunctionWithOneArg', Session.get('keystore'), Session.get('password'), contractAddress, Session.get('nonce'), 'sellBottle', data, function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -132,14 +140,14 @@ Template.hello.events({
 						}
 					});
 				} else {
-					var nonce = Meteor.call('getNonce', function(error, result){
+					var nonce = Meteor.call('getNonce', Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0], function(error, result){
 						if(error){
 							throw error;
 						} else if(result){
 							return result;
 						}
-					})
-					Meteor.call('sendFunctionWithOneArg', keystore, Session.get('password'), contractAddress, nonce, 'sellBottle', data, function(err, res){
+					});
+					Meteor.call('sendFunctionWithOneArg', Session.get('keystore'), Session.get('password'), contractAddress, nonce, 'sellBottle', data, function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -154,7 +162,7 @@ Template.hello.events({
 		if(Session.get('keystore') !== undefined){
 			if(Session.get('password') !== undefined){
 				if(Session.get('nonce') !== undefined){
-					Meteor.call('sendFunctionWithoutArg', keystore, Session.get('password'), contractAddress, nonce, 'buyBottle', function(err, res){
+					Meteor.call('sendFunctionWithoutArg', Session.get('keystore'), Session.get('password'), contractAddress, Session.get('nonce'), 'buyBottle', function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -162,14 +170,14 @@ Template.hello.events({
 						}
 					});
 				} else {
-					var nonce = Meteor.call('getNonce', function(error, result){
+					var nonce = Meteor.call('getNonce', Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0], function(error, result){
 						if(error){
 							throw error;
 						} else if(result){
 							return result;
 						}
-					})
-					Meteor.call('sendFunctionWithoutArg', keystore, Session.get('password'), contractAddress, nonce, 'buyBottle', function(err, res){
+					});
+					Meteor.call('sendFunctionWithoutArg', Session.get('keystore'), Session.get('password'), contractAddress, nonce, 'buyBottle', function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -184,7 +192,7 @@ Template.hello.events({
 		if(Session.get('keystore') !== undefined){
 			if(Session.get('password') !== undefined){
 				if(Session.get('nonce') !== undefined){
-					Meteor.call('sendFunctionWithOneArg', keystore, Session.get('password'), contractAddress, nonce, 'setNextResponsible', data, function(err, res){
+					Meteor.call('sendFunctionWithOneArg', Session.get('keystore'), Session.get('password'), contractAddress, Session.get('nonce'), 'setNextResponsible', data, function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -192,14 +200,14 @@ Template.hello.events({
 						}
 					});
 				} else {
-					var nonce = Meteor.call('getNonce', function(error, result){
+					var nonce = Meteor.call('getNonce', Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0], function(error, result){
 						if(error){
 							throw error;
 						} else if(result){
 							return result;
 						}
-					})
-					Meteor.call('sendFunctionWithOneArg', keystore, Session.get('password'), contractAddress, nonce, 'setNextResponsible', data, function(err, res){
+					});
+					Meteor.call('sendFunctionWithOneArg', Session.get('keystore'), Session.get('password'), contractAddress, nonce, 'setNextResponsible', data, function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -214,7 +222,7 @@ Template.hello.events({
 		if(Session.get('keystore') !== undefined){
 			if(Session.get('password') !== undefined){
 				if(Session.get('nonce') !== undefined){
-					Meteor.call('sendFunctionWithoutArg', keystore, Session.get('password'), contractAddress, nonce, 'acceptResponsibility', function(err, res){
+					Meteor.call('sendFunctionWithoutArg', Session.get('keystore'), Session.get('password'), contractAddress, Session.get('nonce'), 'acceptResponsibility', function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
@@ -222,14 +230,14 @@ Template.hello.events({
 						}
 					});
 				} else {
-					var nonce = Meteor.call('getNonce', function(error, result){
+					var nonce = Meteor.call('getNonce', Session.get('keystore').ksData["m/0'/0'/0'"].addresses[0], function(error, result){
 						if(error){
 							throw error;
 						} else if(result){
 							return result;
 						}
-					})
-					Meteor.call('sendFunctionWithoutArg', keystore, Session.get('password'), contractAddress, nonce, 'acceptResponsibility', function(err, res){
+					});
+					Meteor.call('sendFunctionWithoutArg', Session.get('keystore'), Session.get('password'), contractAddress, nonce, 'acceptResponsibility', function(err, res){
 						if(err){
 							throw err;
 						}else if (res){
