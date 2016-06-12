@@ -22,3 +22,7 @@ insecure                # Allow all DB writes from clients (for prototyping)
 session
 check
 iron:router
+chuangbo:cookie
+twbs:bootstrap
+accounts-ui
+accounts-password

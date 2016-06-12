@@ -1,0 +1,19 @@
+<template name="content">
+
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Mes vins</h2>
+            </div>
+        </div>
+        <!-- /.row -->
+       <hr>
+        <!-- Page Features -->
+        <div class="row text-center">
+            {{#each bottles}}
+            {{> bottle}}
+            {{/each}}
+            <a href="/addbottle">Ajouter une bouteille</a>
+        </div>
+        <!-- /.row -->
+</template>

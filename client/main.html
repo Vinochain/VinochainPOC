@@ -1,38 +1,8 @@
 <head>
-	<title>simple</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>VinoChain</title>
 </head>
-
-<body>
-	<h1>Welcome to Meteor!</h1>
-
-	{{> hello}}
-	{{> info}}
-</body>
-
-<template name="hello">
-	<input type="text" class="password" id="password"/>
-	<button class="passwordSubmission">submit password</button>
-	<button class="walletCreation">Create wallet</button>
-	<div>
-		<label>Upload your wallet informations as a .txt file </label>
-		<input type="file" id="walletInput" style="width: 100%; height: 36px;">
-	</div>
-	<div id="seeWallet"></div>
-	<button class="bottleCreation">Create a bottle on the chain</button>
-	<button class="bottleProducerOwnership">Set bottle producer ownership</button>
-	<button class="sellBottle">Change the owner of the bottle</button>
-	<button class="buyBottle">Transfer responsibility</button>
-	<button class="transferResponsibility">Transfer responsibility</button>
-	<button class="acceptResponsibilityTransfer">Transfer responsibility</button>
-	<p>You've pressed the button {{counter}} times.</p>
-</template>
-
-<template name="info">
-	<h2>Learn Meteor!</h2>
-	<ul>
-		<li><a href="https://www.meteor.com/try">Do the Tutorial</a></li>
-		<li><a href="http://guide.meteor.com">Follow the Guide</a></li>
-		<li><a href="https://docs.meteor.com">Read the Docs</a></li>
-		<li><a href="https://forums.meteor.com">Discussions</a></li>
-	</ul>
-</template>

@@ -1,0 +1,20 @@
+<template name="signup">
+  <form class="form-signin">
+    <h2 class="form-signin-heading">Sign-up</h2>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+    <label for="listRole" class="sr-only">Roles</label>
+    <div class="checkbox">
+    <select id="listRole" class="form-control">
+        <option value="Producteur">Producteur</option>
+        <option value="Distributeur">Distributeur</option>
+        <option value="Transporteur">Transporteur</option>
+        <option value="Consommateur">Consommateur</option>
+    </select>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign-up</button>
+  </form>
+</template>
